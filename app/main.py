@@ -4,15 +4,27 @@ from pydantic import BaseModel
 from fastapi.responses import Response
 from fastapi.requests import Request
 import time
+from contextlib import asynccontextmanager
+import os
 
-redis_url = "redis://redis:6379"
-app = FastAPI()
-redis_conn = redis.from_url(redis_url, decode_responses=True)
-redis_ts = redis_conn.ts()
+redis_url = os.environ["KEYWORDS_STATS_REDIS_URL"]
 keywords = ["checkpoint", "avanan", "email", "security"]
 keywords_ts_prefix = "ts_"
-for keyword in keywords:
-    redis_ts.create(keywords_ts_prefix+keyword)
+redis_conn = redis.from_url(redis_url, decode_responses=True)
+redis_ts = redis_conn.ts()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Load the ML model
+    for keyword in keywords:
+        try:
+            redis_ts.create(keywords_ts_prefix+keyword)
+        except redis.exceptions.ResponseError as e:
+            print(e)
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
 
 class StatsResponse(BaseModel):
     checkpoint: int
@@ -40,6 +52,7 @@ async def stats(interval: int = 1) -> StatsResponse:
         if len(sum) > 0:
             setattr(result, keyword, int(sum[0][1]))
     return result
+
 
 import uvicorn
 if __name__ == "__main__":
