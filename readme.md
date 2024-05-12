@@ -51,7 +51,8 @@ in terminal
 ```
 curl -X POST 'http://localhost/api/v1/events' -d 'a lot of security stuff is handled by very smart people'
 curl -X POST 'http://localhost/api/v1/events' -d 'the email is very secure'
-curl 'http://localhost/api/v1/stats?interval=60' # this will return counted keywords in last 60 seconds 
+# this will return counted keywords in last 60 seconds 
+curl 'http://localhost/api/v1/stats?interval=60' 
 ```
 
 ## pytest and unit tests 

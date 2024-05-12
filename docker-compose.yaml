@@ -15,7 +15,7 @@ services:
       depends_on:
         - redis
       environment:
-        - KEYWORDS_STATS_REDIS_URL="redis://redis:6379"
+        - KEYWORDS_STATS_REDIS_URL=redis://redis:6379
       
 volumes:
   redis_data:
