@@ -58,7 +58,10 @@ curl 'http://localhost/api/v1/stats?interval=60'
 ## pytest and unit tests 
 
 Prerequisite
-1. poetry
+1. poetry (https://python-poetry.org/docs/)
+```
+pipx install poetry 
+```
 2. docker 
 
 You should run docker-compose for redis container 
