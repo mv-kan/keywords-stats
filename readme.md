@@ -8,7 +8,7 @@ This application is designed to count occurrences of specific keywords: `["check
 Prerequisite
 1. docker 
 ```
-docker compose up 
+$ docker compose up 
 ```
 Once the application is up, you can access it at http://localhost/redoc.
 
@@ -19,32 +19,31 @@ Prerequisite
 - docker 
 ```
 # set up minikube
-minikube start 
+$ minikube start 
 # you may want to enable metrics-server
-minikube addons enable metrics-server
-minikube dashboard
+$ minikube addons enable metrics-server
+$ minikube dashboard
 ```
 
 Deploy the application using:
-
 ```
-kubectl apply -f ./k8s-deployment
+$ kubectl apply -f ./k8s-deployment
 ```
 
 Use a load generator to observe pod autoscaling:
 ```
-kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.001; do wget -q -O- http://keystat-app/api/v1/stats; done"
+$ kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.001; do wget -q -O- http://keystat-app/api/v1/stats; done"
 ```
 
 Watch container CPU load:
 ```
-kubectl get hpa keystat-app-hpa --watch
+$ kubectl get hpa keystat-app-hpa --watch
 ```
 
 Access the application:
 ```
 # This command will display the IP address of the hosted application.
-minikube service keystat-app
+$ minikube service keystat-app
 ```
 
 ## Example
@@ -65,9 +64,9 @@ Prerequisite
 
 ```
 # Install all needed dependencies
-poetry install
+$ poetry install
 # Run docker-compose for the Redis container: 
-docker compose up 
+$ docker compose up 
 # Then, run the tests
-poetry run pytest
+$ poetry run pytest
 ```
