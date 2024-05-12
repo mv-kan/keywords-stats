@@ -1,73 +1,73 @@
-# Keywords Stats 
+# Keyword Statistics
 
-This is application that counts these `["checkpoint", "avanan", "email", "security"]` keywords. Also you can get some statistics about it. 
+This application is designed to count occurrences of specific keywords: `["checkpoint", "avanan", "email", "security"]`. Additionally, it provides statistical insights based on these counts.
 
 ## How to run? 
 
-### 1. docker compose (recommended)
+### 1. Docker Compose (Recommended)
 Prerequisite
 1. docker 
 ```
 docker compose up 
 ```
-and then you can visit `http://localhost/redoc`
+Once the application is up, you can access it at http://localhost/redoc.
 
-### 2. k8s (with horizontal pod autoscaler)
+### 2. Kubernetes (with Horizontal Pod Autoscaler)
 Prerequisite
-1. kubectl, minikube
-2. docker 
+- kubectl
+- minikube
+- docker 
 ```
-# set up minikube and show statistics 
+# set up minikube
 minikube start 
 # you may want to enable metrics-server
 minikube addons enable metrics-server
 minikube dashboard
 ```
 
-And then deploy everything using this command
+Deploy the application using:
+
 ```
 kubectl apply -f ./k8s-deployment
 ```
 
-Load generator to check autoscaling of pods 
+Use a load generator to observe pod autoscaling:
 ```
 kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.001; do wget -q -O- http://keystat-app/api/v1/stats; done"
 ```
 
-You can watch containers cpu load using this 
+Watch container CPU load:
 ```
 kubectl get hpa keystat-app-hpa --watch
 ```
 
-You can access app after this command 
+Access the application:
 ```
+# This command will display the IP address of the hosted application.
 minikube service keystat-app
 ```
-it will print out ip address of hosted application
 
 ## Example
 
-in terminal
+In bash terminal:
 ```
-curl -X POST 'http://localhost/api/v1/events' -d 'a lot of security stuff is handled by very smart people'
-curl -X POST 'http://localhost/api/v1/events' -d 'the email is very secure'
+$ curl -X POST 'http://localhost/api/v1/events' -d 'a lot of security stuff is handled by very smart people'
+$ curl -X POST 'http://localhost/api/v1/events' -d 'the email is very secure'
 # this will return counted keywords in last 60 seconds 
-curl 'http://localhost/api/v1/stats?interval=60' 
+$ curl 'http://localhost/api/v1/stats?interval=60' 
 ```
 
-## pytest and unit tests 
+## Pytest and Unit Tests
 
 Prerequisite
-1. poetry (https://python-poetry.org/docs/)
-```
-pipx install poetry 
-```
-2. docker 
+1. Poetry ([How To Install Poetry](https://python-poetry.org/docs/))
+2. Docker
 
-You should run docker-compose for redis container 
 ```
+# Install all needed dependencies
 poetry install
+# Run docker-compose for the Redis container: 
 docker compose up 
-# then you can try to run test
+# Then, run the tests
 poetry run pytest
 ```
