@@ -15,7 +15,7 @@ def test_main():
     res = client.get("/api/v1/stats?interval=1")
     assert res.status_code == 200
     assert res.json() == {"checkpoint":1,"avanan":1,"email":2,"security":1}
-    time.sleep(1)
+    time.sleep(1.1)
     
     res = client.get("/api/v1/stats?interval=1")
     assert res.status_code == 200

@@ -71,5 +71,5 @@ You should run docker-compose for redis container
 ```
 docker compose up 
 # then you can try to run test
-pytest
+poetry run pytest
 ```
