@@ -60,15 +60,10 @@ curl 'http://localhost/api/v1/stats?interval=60'
 Prerequisite
 1. poetry
 2. docker 
-```
-# 1. poetry install to initialize virtual env 
-poetry install
-# 2. activate scripts 
-source ./.venv/bin/activate
-```
 
 You should run docker-compose for redis container 
 ```
+poetry install
 docker compose up 
 # then you can try to run test
 poetry run pytest
